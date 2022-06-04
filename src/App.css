@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+img {
+  margin: 0 auto 0 auto;
+}
+
+#title{
+  background-color: #F6E7D8;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#part2{
+  background-color: #F9F9F9;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
