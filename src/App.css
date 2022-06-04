@@ -45,6 +45,7 @@ img {
   background-color: #F6E7D8;
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+  width: fit-content;
 }
 
 #part2{
