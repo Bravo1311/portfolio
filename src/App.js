@@ -16,7 +16,7 @@ const App = () =>(
         </div>
         
         <div id = "part2">
-        <Cardsection/>
+        {/* <Cardsection/> */}
         <Footer/>
         </div>
         

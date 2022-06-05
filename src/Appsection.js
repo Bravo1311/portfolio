@@ -12,7 +12,7 @@ const Appsection = () => (
     
       </div>
 
-      <div className="row mt-5" style={{backgroundColor:"#F68989", fontSize:"20px"}}>
+      <div className="row " style={{backgroundColor:"#F68989", fontSize:"20px", marginTop:"100px"}}>
         <p className="col col-lg-4 col-md-6 col-sm-6 mt-5">I started as a Mechanical Engineer...</p>
         <p className="col col-lg-4 col-md-6 col-sm-6  mt-5">...Did solid modelling...</p>
         <p className="col col-lg-4 col-md-6 col-sm-6  mt-5">...Explored new Renewable Energy Resources...</p>
