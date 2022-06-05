@@ -5,13 +5,14 @@ import Herosection from "./Herosection";
 import Cardsection from "./Cardsection";
 import Footer from "./footer";
 import "./App.css";
+import Example from "./Navbar";
 //import bootstrap from "bootstrap";
 
 const App = () =>(
     <div>
         {/* <h1>Kartik</h1> */}
         <div id = "title" style={{height:"auto"}}>
-        <Navbar/>        
+        <Example/>        
         <Appsection/>
         </div>
         
