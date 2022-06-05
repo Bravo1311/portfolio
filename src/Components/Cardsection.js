@@ -5,9 +5,9 @@ const Cardsection = () =>{
     return(
         <section >
       <div className="container-fluid ">
-        <h2 className="">
+        <h4 className="">
           You know, I'm something of a musician myself.
-        </h2>
+        </h4>
         <div className="row">
           <div className="col-lg-4 col-md-6 col-sm-6">
             <Section className = "col-lg-4 col-md-6 col-sm-6" title="Agar Tum Saath Ho | Tamasha" link="https://www.youtube.com/watch?v=wHRScvoZ8xc" thumbnail="http://img.youtube.com/vi/wHRScvoZ8xc/hqdefault.jpg"/>
