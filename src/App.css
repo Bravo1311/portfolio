@@ -1,6 +1,14 @@
 .App {
   text-align: center;
 }
+html,body
+{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden; 
+}
 
 .App-logo {
   height: 40vmin;
@@ -32,6 +40,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -41,15 +50,104 @@ img {
   margin: 0 auto 0 auto;
 }
 
-#title{
+#title {
   background-color: #F6E7D8;
+  background-image: linear-gradient(#f7ece1, #FFDAAF);
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
   width: fit-content;
+  margin-right: 0%;
 }
 
-#part2{
-  background-color: #F9F9F9;
+#title a {
+  font-size: large;
+  color: #7C3E66;
+}
+
+#part2 {
+  background-color: #524A4E;
+  /* background-image: linear-gradient(to bottom right, #C1F4C5, #F9CEEE); */
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+  
+  height: 100px;
 }
+
+.navbar-collapse {
+  color: rgb(151, 27, 27);
+}
+
+.footer{
+  color: #FFF2F9;
+}
+
+
+
+.appsection{
+  /* background-color:"#F68989"; */
+  background-image: linear-gradient(#FFDAAF ,#FFF6EA);
+  
+}
+
+#carousel{
+  padding: 7% 15%;
+  text-align: center;
+}
+
+.cards{
+  background-color: #FAF5E4;
+  margin: 2%;
+  padding:8% 16%;
+   /* width: 25%; */
+  border-radius: 10%;
+  height: 90%;
+  font-size: medium;
+  
+
+  
+}
+
+.contact{
+  padding: 20px;
+}
+
+#youtubte{
+  text-align: center;
+  background-color: #FEFBE7;
+  background-image: linear-gradient(#FEFBE7,#FDF6EC);
+  padding: 100px 5px 20px;
+  font-family: "Gill Sans Extrabold", sans-serif;
+
+ 
+  
+}
+
+.companycontainer{
+  text-align: center;
+  /* display: flex; */
+  width: 50%;
+  /* height: 15%; */
+  padding: 10% 0 0 0 ;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#portfolio{
+  padding: 10%;
+  text-align: center;
+  background-image: linear-gradient(white,#FDF6EC);
+  /* height: max-content; */
+  font-family: "Gill Sans Extrabold", sans-serif;
+}
+
+
+.card-img-top{
+  border-radius: 10%;
+
+  margin: 2%; 
+}
+
+.btncolor{
+  color: #FF0000;
+}
+

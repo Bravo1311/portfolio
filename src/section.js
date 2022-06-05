@@ -1,19 +1,17 @@
 import React from "react";
+import { BsYoutube, BsLinkedin } from 'react-icons/bs';
 
-const Section = ({title = "Basketball", buttontext = "Click"}) =>(
-    <div className="card" style={{width: "18rem"}}>
+const Section = ({title = "Basketball", thumbnail = "http://img.youtube.com/vi/wHRScvoZ8xc/hqdefault.jpg", link = "https://www.youtube.com/channel/UCmXbIh3Q1erZ7WARaYHF75g"
+      , songname = "Music Cover"}) =>(
+    <div className="cards">
               <img
-                src="https://images.pexels.com/photos/3532557/pexels-photo-3532557.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                src={thumbnail}
                 className="card-img-top"
                 alt="..."
               />
               <div className="card-body">
                 <h5 className="card-title">{title}</h5>
-                <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" className="btn btn-success">{buttontext}</a>
+                <a href={link} className="btn btncolor"><BsYoutube size={50}/></a>
               </div>
             </div>
 )
