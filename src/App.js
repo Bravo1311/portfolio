@@ -9,7 +9,7 @@ import Portf from "./Components/Portfolio";
 import Example from "./Components/Carousel";
 import Companies from "./Components/Companies";
 import {
-    HashRouter as Router, Routes, Route, Navigate, Link, Outlet
+    HashRouter, Routes, Route, Navigate, Link, Outlet
     , useParams, NavLink
 } from "react-router-dom"
 
@@ -31,7 +31,7 @@ function App() {
         notify();
       }, [])
     return (
-        <Router>
+        <HashRouter>
             <Navbars />
             <Routes>
                 <Route path="/" element={
@@ -57,7 +57,7 @@ function App() {
                 </Route> */}
 
             </Routes>
-        </Router>
+        </HashRouter>
     )
 }
 // <div className="container-fluid" style={{ backgroundColor: "#F6E7D8", padding: "0px", marginRight: "0px" }}>
