@@ -31,7 +31,7 @@ function App() {
         notify();
       }, [])
     return (
-        <HashRouter>
+        <>
             <Navbars />
             <Routes>
                 <Route path="/" element={
@@ -57,7 +57,7 @@ function App() {
                 </Route> */}
 
             </Routes>
-        </HashRouter>
+            </>
     )
 }
 // <div className="container-fluid" style={{ backgroundColor: "#F6E7D8", padding: "0px", marginRight: "0px" }}>
