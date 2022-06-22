@@ -2,8 +2,8 @@ import React from "react";
 import {FaAmazon} from 'react-icons/bs';
 
 const Companies = () =>(
-    <div className="row container-fluid companies">
-        <h4>I have been associated with...</h4>
+    <div className="row companies" id="portfolio">
+        <h4>I'm proud to have been associated with these great companies:</h4>
         <div className="col-lg-3 col-md-6 col-sm-6">
             <img className="companycontainer" src="https://cdn.theorg.com/5c3f866c-b7ba-45a3-8fc4-814fd686504f_thumb.png" alt="LTI"/>      
         </div>

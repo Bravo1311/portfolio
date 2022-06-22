@@ -13,6 +13,9 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
+import {Link, Outlet} from "react-router-dom"
+
+
 
 export default class Navbars extends React.Component {
   constructor(props) {
@@ -29,7 +32,7 @@ export default class Navbars extends React.Component {
     });
   }
   render() {
-    return (
+    return (      
       <div>
         <Navbar light expand="md" style={{ backgroundColor: "#F2EBE9" }}>
           <NavbarBrand href="/">Kartik</NavbarBrand>
@@ -37,13 +40,13 @@ export default class Navbars extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav navbar>
               <NavItem>
-                <NavLink >Home</NavLink>
+                <NavLink tag={Link} to="/">Home</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink>Portfolio</NavLink>
+                <NavLink tag={Link} to="/portfolio">Portfolio</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">My Music Gallery</NavLink>
+                <NavLink href="https://www.youtube.com/channel/UCmXbIh3Q1erZ7WARaYHF75g">My Music Gallery</NavLink>
               </NavItem>
               {/* <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
@@ -65,6 +68,7 @@ export default class Navbars extends React.Component {
             </Nav>
           </Collapse>
         </Navbar>
+        <Outlet/>
       </div>
     );
   }

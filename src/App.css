@@ -53,16 +53,20 @@ img {
 #title {
   background-color: #F6E7D8;
   background-image: linear-gradient(#f7ece1, #FFDAAF);
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-  width: fit-content;
+  /* font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace; */
+    font-family: "Gill Sans Extrabold", sans-serif;
+  /* width: fit-content; */
   margin-right: 0%;
 }
 
 #title a {
   font-size: large;
   color: #7C3E66;
+  /* width: 100%; */
 }
+
+
 
 #part2 {
   background-color: #524A4E;
@@ -79,6 +83,8 @@ img {
 
 .footer{
   color: #FFF2F9;
+  padding-top: 20px;
+  text-align: center;
 }
 
 
@@ -102,13 +108,15 @@ img {
   border-radius: 10%;
   height: 90%;
   font-size: medium;
+  border: 4px #FEFBE7;
+  border-style: solid;
   
 
   
 }
 
 .contact{
-  padding: 20px;
+  padding: 30px;
 }
 
 #youtubte{

@@ -9,8 +9,8 @@ const Footer = () => (
   //   <p className="lead container">You can react via email too</p>
   //   <p className="lead container">NO COPYRIGHT</p>
   // </section>
-  <div className="row" >
-    <div className="col-lg-4 footer mt-4" >
+  <div  id="part2">
+    <div className="footer pt-4" >
       <a className="contact" href="https://github.com/Bravo1311"><BsGithub size={25} color  = "#171515 " /></a>
       <a className="contact" href="https://www.linkedin.com/in/kartik-agrawal-a74b5215a/"><BsLinkedin size={25} /></a>
       <a className="contact" href="https://www.youtube.com/channel/UCmXbIh3Q1erZ7WARaYHF75g"><BsYoutube size={30} color = "#FF0000"/></a>

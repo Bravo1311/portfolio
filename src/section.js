@@ -10,8 +10,8 @@ const Section = ({title = "Basketball", thumbnail = "http://img.youtube.com/vi/w
                 alt="..."
               />
               <div className="card-body">
-                <h5 className="card-title">{title}</h5>
-                <a href={link} className="btn btncolor"><BsYoutube size={50}/></a>
+                <h5 className="card-title cardname" style={{height:"50px"}}>{title}</h5>
+                <a href={link} className="btn btncolor mt-2"><BsYoutube size={50}/></a>
               </div>
             </div>
 )
