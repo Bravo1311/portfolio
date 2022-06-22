@@ -9,7 +9,7 @@ import Portf from "./Components/Portfolio";
 import Example from "./Components/Carousel";
 import Companies from "./Components/Companies";
 import {
-    BrowserRouter as Router, Routes, Route, Navigate, Link, Outlet
+    HashRouter as Router, Routes, Route, Navigate, Link, Outlet
     , useParams, NavLink
 } from "react-router-dom"
 
