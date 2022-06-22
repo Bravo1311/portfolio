@@ -40,7 +40,7 @@ function App() {
                         <Cardsection />
                         <Footer />
                     </>} />
-                <Route path='/portfolio' element={<Portf />} />
+                <Route path='/cv' element={<Portf />} />
 
                 {/* 
              

@@ -43,7 +43,7 @@ export default class Navbars extends React.Component {
                 <NavLink tag={Link} to="/">Home</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} to="/portfolio">Portfolio</NavLink>
+                <NavLink tag={Link} to="/cv">Portfolio</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="https://www.youtube.com/channel/UCmXbIh3Q1erZ7WARaYHF75g">My Music Gallery</NavLink>
