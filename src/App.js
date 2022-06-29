@@ -24,11 +24,13 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
 
     useEffect(() => {
-        const notify = () => toast("Fetching the Model Do not Close", {
-          autoClose: 60000
-        });
+        // const notify = () => toast("Fetching the Model Do not Close", {
+        //   autoClose: 60000
+        // });
     
-        notify();
+        // notify();
+        console.log('i fire once');
+        return alert("Site under construction!!!");
       }, [])
     return (
         <>
