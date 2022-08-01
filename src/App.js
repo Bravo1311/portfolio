@@ -31,7 +31,7 @@ function App() {
         // notify();
         
         // console.log('i fire once');
-        alert("Site Under Construction.!!!");
+        alert("Site Under Construction!!!");
       }, [])
     return (
         <>
