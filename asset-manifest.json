@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/portfolio/static/css/main.2c3c316d.css",
-    "main.js": "/portfolio/static/js/main.fd9dcd25.js",
+    "main.js": "/portfolio/static/js/main.727304fe.js",
     "static/js/787.128fc6e9.chunk.js": "/portfolio/static/js/787.128fc6e9.chunk.js",
     "static/media/CV.png": "/portfolio/static/media/CV.47dad4be9ad8cebe6763.png",
     "static/media/kartik Agrawal.pdf": "/portfolio/static/media/kartik Agrawal.5a5d5db24b54db975124.pdf",
     "index.html": "/portfolio/index.html",
     "main.2c3c316d.css.map": "/portfolio/static/css/main.2c3c316d.css.map",
-    "main.fd9dcd25.js.map": "/portfolio/static/js/main.fd9dcd25.js.map",
+    "main.727304fe.js.map": "/portfolio/static/js/main.727304fe.js.map",
     "787.128fc6e9.chunk.js.map": "/portfolio/static/js/787.128fc6e9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2c3c316d.css",
-    "static/js/main.fd9dcd25.js"
+    "static/js/main.727304fe.js"
   ]
 }
