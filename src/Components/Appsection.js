@@ -29,7 +29,7 @@ const Appsection = () => (
        <h4 style={{paddingLeft:"100px"}}>an accidental programmer</h4>
        <h4 style={{paddingLeft:"100px"}}>Welcome to my life.</h4>
        <br></br>
-       <img style={{borderRadius:"100%"}} width = "280px" src = "https://media-exp1.licdn.com/dms/image/C5603AQH0gqnvJyJPGw/profile-displayphoto-shrink_400_400/0/1641911630435?e=1660176000&v=beta&t=610vhnwL6eDKnWfRB5TsKUBwKGduCqCGWS97qLorQPE" alt = "profile photo"/>
+       <img style={{borderRadius:"100%"}} width = "280px" src = {require ('../Images/Profile.jpg')} alt = "profile photo"/>
        <p style={{padding:"5% 10% 1% 10%"}}>I completed my B.E Mechanical Engineering from BITS Pilani in 2021. I began my career as a developer in Amazon, by making excel VBA macros. Since then, I have enjoyed working in this field.
           The satisfaction you get when you solve a problem with code is something that drives me. I look forward to connect with people from all walks of life and apply the 
           lessons learnt in my journey.
