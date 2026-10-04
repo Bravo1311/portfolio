@@ -81,7 +81,7 @@ export const tracks = [
           {
             kind: 'video',
             videoId: 'miEoYj2KqZ8',
-            title: 'Nav2 goal navigation with VLM mission planning',
+            title: 'Nav2 goal navigation',
             caption: 'Autonomous goal navigation on PX4 SITL in Gazebo, ROS2 offboard.',
           },
           {
@@ -135,8 +135,10 @@ export const tracks = [
           },
           {
             kind: 'image',
-            label: 'Architecture: tokenizer, DiT blocks with AdaLN, output head',
-            caption: 'Policy architecture',
+            src: 'media/flow-matching-architecture.svg',
+            title: 'Policy architecture',
+            alt: 'Diagram of the flow-matching policy: a noisy action chunk is tokenized and passed through N transformer blocks whose normalization is conditioned on flow time and pose history, and a linear head outputs the predicted velocity.',
+            caption: 'Policy architecture (Phase 1): pose history and flow time condition every block through AdaLN.',
           },
         ],
         detailLabel: 'Architecture and the Phase 2 plan',

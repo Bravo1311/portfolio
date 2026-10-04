@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-labelledby="t d">
+  <title id="t">Flow-matching policy architecture</title>
+  <desc id="d">A noisy action chunk is tokenized, passed through N transformer blocks whose normalization is conditioned on flow time and pose history, and a linear head outputs the predicted velocity.</desc>
+  <style>
+    svg { --bg:#fbfaf5; --box:#ffffff; --line:#c9ced6; --group:#eceef1; --ink:#15171c; --soft:#5a5f69; --accent:#FB3F00; --accent-text:#C42F00; }
+    @media (prefers-color-scheme: dark) {
+      svg { --bg:#0f1013; --box:#1b1d22; --line:#3a3e47; --group:#15171b; --ink:#ecebe6; --soft:#a1a6b0; --accent-text:#FF6A3D; }
+    }
+    text { font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; text-anchor: middle; }
+    .bg { fill: var(--bg); }
+    .box { fill: var(--box); stroke: var(--line); stroke-width: 1.5; }
+    .grp { fill: var(--group); stroke: var(--line); stroke-width: 1.5; }
+    .cond { fill: var(--box); stroke: var(--accent); stroke-width: 2.5; }
+    .t  { font-size: 21px; font-weight: 500; fill: var(--ink); }
+    .tr { font-size: 19px; font-weight: 500; fill: var(--ink); }
+    .s  { font-size: 16px; fill: var(--soft); }
+    .h  { font-size: 18px; font-weight: 600; fill: var(--ink); text-anchor: start; }
+    .l  { font-size: 16px; fill: var(--ink); text-anchor: start; }
+    .ac { font-size: 16px; fill: var(--accent-text); text-anchor: start; }
+    .arr  { stroke: var(--soft); stroke-width: 2; fill: none; }
+    .carr { stroke: var(--accent); stroke-width: 2.5; fill: none; }
+    .tip  { fill: var(--soft); }
+    .ctip { fill: var(--accent); }
+    .dot  { fill: var(--accent); }
+    .plus { fill: var(--box); stroke: var(--soft); stroke-width: 1.5; }
+    .pt   { font-size: 17px; font-weight: 600; fill: var(--ink); }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="tip" d="M1 1 L9 5 L1 9 Z"/></marker>
+    <marker id="c" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="ctip" d="M1 1 L9 5 L1 9 Z"/></marker>
+  </defs>
+  <rect class="bg" width="800" height="450"/>
+
+  <!-- the spine: tokens in, tokens through N blocks, velocity out -->
+  <rect class="box" x="40" y="14" width="320" height="44" rx="8"/>
+  <text class="t" x="200" y="34">Noisy action chunk x_t</text>
+  <text class="s" x="200" y="51">H steps × action_dim</text>
+  <path class="arr" d="M200 58 V74" marker-end="url(#a)"/>
+
+  <rect class="box" x="40" y="76" width="320" height="44" rx="8"/>
+  <text class="t" x="200" y="96">Linear tokenizer</text>
+  <text class="s" x="200" y="113">+ learned position embeddings</text>
+  <path class="arr" d="M200 120 V136" marker-end="url(#a)"/>
+
+  <rect class="grp" x="40" y="138" width="320" height="170" rx="12"/>
+  <text class="h" x="56" y="160">DiT block × N</text>
+  <rect class="box" x="64" y="170" width="272" height="32" rx="6"/>
+  <text class="t" x="200" y="192">AdaLN → self-attention</text>
+  <path class="arr" d="M200 202 V211" marker-end="url(#a)"/>
+  <circle class="plus" cx="200" cy="222" r="10"/>
+  <text class="s" x="200" y="228" style="font-size:18px">+</text>
+  <text class="s" x="220" y="227" style="text-anchor:start;font-size:14px">residual</text>
+  <path class="arr" d="M200 232 V241" marker-end="url(#a)"/>
+  <rect class="box" x="64" y="242" width="272" height="32" rx="6"/>
+  <text class="t" x="200" y="264">AdaLN → feed-forward</text>
+  <path class="arr" d="M200 274 V282" marker-end="url(#a)"/>
+  <circle class="plus" cx="200" cy="292" r="10"/>
+  <text class="s" x="200" y="298" style="font-size:18px">+</text>
+  <text class="s" x="220" y="297" style="text-anchor:start;font-size:14px">residual</text>
+  <path class="arr" d="M200 308 V324" marker-end="url(#a)"/>
+
+  <rect class="box" x="40" y="326" width="320" height="44" rx="8"/>
+  <text class="t" x="200" y="346">Linear output head</text>
+  <text class="s" x="200" y="363">tokens → action_dim</text>
+  <path class="arr" d="M200 370 V386" marker-end="url(#a)"/>
+  <text class="t" x="200" y="406" style="font-weight:600">Predicted velocity</text>
+  <text class="s" x="200" y="425">v(x_t, t, cond)</text>
+
+  <!-- conditioning: history and time are folded into one vector, which reaches every AdaLN -->
+  <rect class="box" x="418" y="22" width="180" height="36" rx="8"/>
+  <text class="tr" x="508" y="46">Pose history</text>
+  <path class="arr" d="M508 58 V76" marker-end="url(#a)"/>
+  <rect class="box" x="418" y="78" width="180" height="46" rx="8"/>
+  <text class="tr" x="508" y="98">History encoder</text>
+  <text class="s" x="508" y="116">transformer + pool</text>
+
+  <rect class="box" x="610" y="22" width="180" height="36" rx="8"/>
+  <text class="tr" x="700" y="46">Flow time t</text>
+  <path class="arr" d="M700 58 V76" marker-end="url(#a)"/>
+  <rect class="box" x="610" y="78" width="180" height="46" rx="8"/>
+  <text class="tr" x="700" y="98">Time embedding</text>
+  <text class="s" x="700" y="116">sinusoidal features</text>
+
+  <path class="carr" d="M508 124 V154 H570 V197" marker-end="url(#c)"/>
+  <path class="carr" d="M700 124 V154 H650 V197" marker-end="url(#c)"/>
+
+  <rect class="cond" x="492" y="199" width="236" height="46" rx="8"/>
+  <text class="tr" x="610" y="219">Conditioning vector</text>
+  <text class="s" x="610" y="237">cond</text>
+
+  <path class="carr" d="M492 222 H392"/>
+  <path class="carr" d="M392 186 V258"/>
+  <circle class="dot" cx="392" cy="222" r="4.5"/>
+  <path class="carr" d="M392 186 H340" marker-end="url(#c)"/>
+  <path class="carr" d="M392 258 H340" marker-end="url(#c)"/>
+  <text class="ac" x="404" y="282">scale + shift in every block</text>
+
+  <rect class="box" x="418" y="300" width="372" height="130" rx="10"/>
+  <text class="pt" x="434" y="324" style="text-anchor:start">Training and use</text>
+  <text class="l" x="434" y="349">Train: regress the velocity from</text>
+  <text class="l" x="434" y="369">noise to the demonstrated actions.</text>
+  <text class="l" x="434" y="394">Run: Euler steps, receding horizon.</text>
+  <text class="s" x="434" y="418" style="text-anchor:start;font-size:15px">Shown: Phase 1 (pose history).</text>
+</svg>

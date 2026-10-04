@@ -29,6 +29,7 @@ const Thumbnail = ({ item }) => {
   const [failed, setFailed] = useState(false)
   if (failed) return null
   if (isHosted(item) && item.poster) return <img src={item.poster} alt="" loading="lazy" onError={() => setFailed(true)} />
+  if (item.kind === 'image' && item.src) return <img src={item.src} alt="" loading="lazy" onError={() => setFailed(true)} />
   if (!isYouTube(item)) return null
   return (
     <img
