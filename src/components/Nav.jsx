@@ -1,6 +1,5 @@
 import { useScrollSpy } from '../hooks.js'
 import ThemeToggle from './ThemeToggle.jsx'
-import { DepthSwitch } from './DepthControl.jsx'
 
 const SECTIONS = [
   { id: 'estimation', label: 'Estimation' },
@@ -35,10 +34,6 @@ const Nav = () => {
           </li>
         ))}
       </ol>
-      <div className="nav-depth">
-        <span className="nav-depth-label">Detail</span>
-        <DepthSwitch />
-      </div>
       <ThemeToggle />
       </div>
     </nav>

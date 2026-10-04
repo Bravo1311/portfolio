@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import EstimatorPlot from './EstimatorPlot.jsx'
 import estimator from '../data/estimator.json'
 import { site } from '../config.js'
@@ -118,11 +119,93 @@ const Lead = ({ item, playing, blocked, onPlay, onBlocked }) => {
 
 const thumbName = (item) => item.title || item.caption || 'Item'
 
+// the chart's caption changes honestly with the data: sample data says so
+const captionFor = (item) =>
+  item.kind === 'plot' && estimator.meta.illustrative
+    ? 'Illustrative sample data: ground truth, a drifting dead-reckoned track and a fused estimate. Hover or tap to inspect.'
+    : item.caption
+
+const canEnlarge = (item) => item.kind === 'plot' || isVideo(item) || Boolean(item.src)
+
+const Glyph = ({ d }) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d={d} />
+  </svg>
+)
+const EXPAND = 'M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7'
+const CLOSE = 'M6 6l12 12M18 6 6 18'
+const PREV = 'M15 5l-7 7 7 7'
+const NEXT = 'M9 5l7 7-7 7'
+
+const FOCUSABLE = 'button, a[href], iframe, video[controls], [tabindex]:not([tabindex="-1"])'
+
+// A full-screen viewer for whichever item is active. Rendered in a portal so no ancestor's transform can trap it.
+const Lightbox = ({ items, active, setActive, onClose }) => {
+  const [blocked, setBlocked] = useState(false)
+  const dialog = useRef(null)
+  const closeBtn = useRef(null)
+  const item = items[active]
+  const many = items.length > 1
+
+  useEffect(() => {
+    const before = document.activeElement
+    const overflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    closeBtn.current && closeBtn.current.focus()
+
+    const onKey = (event) => {
+      if (event.key === 'Escape') onClose()
+      else if (event.key === 'ArrowRight') setActive((i) => (i + 1) % items.length)
+      else if (event.key === 'ArrowLeft') setActive((i) => (i - 1 + items.length) % items.length)
+      else if (event.key === 'Tab' && dialog.current) {
+        const nodes = [...dialog.current.querySelectorAll(FOCUSABLE)]
+        if (!nodes.length) return
+        const first = nodes[0]
+        const last = nodes[nodes.length - 1]
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus() }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = overflow
+      before && before.focus && before.focus()
+    }
+  }, [items.length, onClose, setActive])
+
+  return createPortal(
+    <div className="lightbox" role="dialog" aria-modal="true" aria-label={thumbName(item)} ref={dialog} onClick={onClose}>
+      <button type="button" className="lightbox-btn lightbox-close" ref={closeBtn} onClick={onClose} aria-label="Close">
+        <Glyph d={CLOSE} />
+      </button>
+      {many && (
+        <button type="button" className="lightbox-btn lightbox-prev" onClick={(e) => { e.stopPropagation(); setActive((i) => (i - 1 + items.length) % items.length) }} aria-label="Previous">
+          <Glyph d={PREV} />
+        </button>
+      )}
+      {many && (
+        <button type="button" className="lightbox-btn lightbox-next" onClick={(e) => { e.stopPropagation(); setActive((i) => (i + 1) % items.length) }} aria-label="Next">
+          <Glyph d={NEXT} />
+        </button>
+      )}
+      <div className="lightbox-body" onClick={(e) => e.stopPropagation()}>
+        <div className="media-frame lightbox-frame">
+          <Lead key={active} item={item} playing blocked={blocked} onPlay={() => {}} onBlocked={() => setBlocked(true)} />
+        </div>
+        <p className="lightbox-caption">{captionFor(item)}</p>
+      </div>
+    </div>,
+    document.body,
+  )
+}
+
 // One large frame; with several items, a strip below swaps which one is shown.
 const Media = ({ items }) => {
   const [active, setActive] = useState(0)
   const [playing, setPlaying] = useState(false)
   const [blocked, setBlocked] = useState(false)
+  const [expanded, setExpanded] = useState(false)
   const item = items[active]
 
   const pick = (index) => {
@@ -130,24 +213,28 @@ const Media = ({ items }) => {
     setPlaying(isYouTube(items[index]))
   }
 
-  // the chart's caption changes honestly with the data: sample data says so
-  const caption =
-    item.kind === 'plot' && estimator.meta.illustrative
-      ? 'Illustrative sample data: ground truth, a drifting dead-reckoned track and a fused estimate. Hover or tap to inspect.'
-      : item.caption
+  const caption = captionFor(item)
+
+  const enlarge = () => {
+    track('media-enlarge')
+    setPlaying(false)
+    setExpanded(true)
+  }
 
   return (
     <div className="media">
       <figure className="media-fig">
         <div className="media-frame">
-          <Lead
-            key={active}
-            item={item}
-            playing={playing}
-            blocked={blocked}
-            onPlay={() => setPlaying(true)}
-            onBlocked={() => setBlocked(true)}
-          />
+          {!expanded && (
+            <Lead
+              key={active}
+              item={item}
+              playing={playing}
+              blocked={blocked}
+              onPlay={() => setPlaying(true)}
+              onBlocked={() => setBlocked(true)}
+            />
+          )}
         </div>
         <figcaption>
           {caption}
@@ -160,7 +247,15 @@ const Media = ({ items }) => {
             </>
           )}
         </figcaption>
+        {canEnlarge(item) && (
+          <button type="button" className="media-enlarge" onClick={enlarge} aria-label={`Enlarge: ${thumbName(item)}`}>
+            <Glyph d={EXPAND} />
+            Enlarge
+          </button>
+        )}
       </figure>
+
+      {expanded && <Lightbox items={items} active={active} setActive={setActive} onClose={() => setExpanded(false)} />}
 
       {items.length > 1 && (
         <ul className="thumbs" style={{ '--n': items.length }}>

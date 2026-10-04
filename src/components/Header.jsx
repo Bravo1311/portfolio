@@ -35,16 +35,6 @@ const Header = () => (
             </li>
           ))}
         </ol>
-
-        <ul className="contact">
-          <li className="contact-place">{profile.location}</li>
-          {profile.links.map((link) => (
-            <li key={link.href}>
-              <a href={link.href}>{link.label}</a>
-            </li>
-          ))}
-        </ul>
-        <p className="availability">{profile.availability}</p>
       </div>
     </div>
   </header>

@@ -9,11 +9,11 @@
 
 export const profile = {
   name: 'Kartik Agrawal',
-  role: 'Autonomy engineer',
+  role: 'Autonomy Engineer',
   claim:
     'I work the full path from raw sensor measurements to learned action policies: state estimation at the bottom, systems integration in the middle, policy training at the top. Three years of production software engineering underneath it.',
   location: 'Aachen, Germany',
-  availability: 'MSc completes January 2027. Available from February, willing to relocate.',
+  // availability: 'MSc Robotic Systems Engineering (January 2027). Available from February, willing to relocate.',
   links: [
     { label: 'cartikingermany@gmail.com', href: 'mailto:cartikingermany@gmail.com' },
     { label: '+49 176 87935033', href: 'tel:+4917687935033' },
@@ -31,11 +31,12 @@ export const tracks = [
     entries: [
       {
         id: 'thesis-fgo',
+        art: 'uav-team',
         // PLACEHOLDER — replace with the version worked out in the thesis project.
         period: 'Jul 2026 — Jan 2027',
         status: 'progress',
         title: 'Decentralized cooperative localization for UAV teams',
-        org: 'MSc thesis · Institute of Automatic Control (IRT), RWTH Aachen',
+        org: "Master's thesis · Institute of Automatic Control (IRT), RWTH Aachen",
         summary:
           'A framework for drones to improve their own state estimates from their neighbours. Each agent localizes from onboard GNSS, IMU and magnetometer; pairwise UWB ranging couples agents, reconciled with MESA — manifold edge-based separable ADMM.',
         tags: ['GTSAM', 'MESA / C-ADMM', 'UWB', 'GNSS', 'ROS2', 'ArduPilot'],
@@ -66,6 +67,7 @@ export const tracks = [
     entries: [
       {
         id: 'autonomy-stack',
+        art: 'navigation',
         period: 'Feb 2026 — present',
         status: 'working',
         title: 'UAV autonomy stack',
@@ -115,6 +117,7 @@ export const tracks = [
     entries: [
       {
         id: 'flow-matching',
+        art: 'flow-policy',
         period: 'Aug 2026 — present',
         status: 'working',
         title: 'Flow-matching UAV autonomy',
@@ -210,23 +213,27 @@ export const education = [
   {
     id: 'rwth',
     period: 'Oct 2023 — present',
-    title: 'MSc Robotic Systems Engineering',
-    org: 'RWTH Aachen University — grade 2.1',
+    title: 'M.Sc. Robotic Systems Engineering',
+    org: 'RWTH Aachen University',
     summary: '',
-    detailLabel: 'Relevant coursework',
-    details: [
-      'Advanced Machine Learning, Computer Vision, Simulation of Robotic Systems, Sensors and Environment, Reinforcement Learning, Mechatronics, Mobile Robotics, Industrial Logistics.',
-    ],
+    details: [],
   },
   {
     id: 'bits',
     period: 'Aug 2017 — Jul 2021',
-    title: 'BEng Mechanical Engineering',
-    org: 'BITS Pilani, Pilani Campus — grade 7.83/10',
+    title: 'B.Eng. Mechanical Engineering',
+    org: 'BITS Pilani',
     summary: '',
     details: [],
   },
 ]
+
+// Shared, not tied to either column above — so the pair reads as two equal
+// entries rather than one with coursework and one visibly missing it.
+export const educationCoursework = {
+  label: 'Relevant coursework — RWTH Aachen',
+  text: 'Advanced Machine Learning, Computer Vision, Simulation of Robotic Systems, Sensors and Environment, Reinforcement Learning, Mechatronics, Mobile Robotics, Industrial Logistics.',
+}
 
 export const skills = [
   {
@@ -249,12 +256,12 @@ export const skills = [
     label: 'Machine learning',
     items: ['PyTorch', 'Flow matching', 'Transformers', 'Imitation learning', 'VLMs'],
   },
-  { label: 'Languages', items: ['Python', 'C++', 'Java', 'JavaScript (MERN)', 'SQL'] },
+  { label: ' Programming Languages', items: ['Python', 'C++', 'Java', 'JavaScript (MERN)', 'SQL'] },
   {
     label: 'Infrastructure',
     items: ['Git', 'Docker', 'GitHub Actions', 'Linux', 'Redpanda', 'PostgreSQL', 'Grafana'],
   },
-  { label: 'Spoken', items: ['English (fluent)', 'German (A2)', 'Hindi (native)'] },
+  { label: 'Languages', items: ['English (fluent)', 'German (A2)', 'Hindi (native)'] },
 ]
 
 // Which entries show a given skill. Only skills that an entry's own text supports are listed;

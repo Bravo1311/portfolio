@@ -7,7 +7,6 @@ const Skills = () => {
   return (
     <section className="section" id="skills">
       <h2 className="section-title">Skills</h2>
-      <p className="skills-hint">Underlined skills link to the work on this page that shows them.</p>
       <div className="skills">
         {skills.map((group) => (
           <div className="skill-group" key={group.label}>
