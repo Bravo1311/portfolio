@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useScrollSpy } from '../hooks.js'
 import ThemeToggle from './ThemeToggle.jsx'
 import { profile } from '../data/cv.js'
@@ -11,8 +12,34 @@ const SECTIONS = [
   { id: 'education', label: 'Education' },
 ]
 
+// The hero's chain, kept in the bar: it lights up as you move down through the stack.
+const CHAIN = [
+  { label: 'Sensing' },
+  { id: 'estimation', label: 'Estimation' },
+  { id: 'integration', label: 'Integration' },
+  { id: 'policy', label: 'Policy' },
+  { label: 'Action' },
+]
+const LAYERS = ['estimation', 'integration', 'policy']
+
 const Nav = () => {
   const active = useScrollSpy(SECTIONS.map((s) => s.id))
+  const [docked, setDocked] = useState(false)
+
+  // The bar stays away while the hero's chain is on screen, and takes over once that chain has scrolled out of view.
+  useEffect(() => {
+    const chain = document.querySelector('.hero .chain')
+    if (!chain || !('IntersectionObserver' in window)) {
+      setDocked(true)
+      return
+    }
+    const observer = new IntersectionObserver(([entry]) => setDocked(!entry.isIntersecting && entry.boundingClientRect.top < 0))
+    observer.observe(chain)
+    return () => observer.disconnect()
+  }, [])
+
+  const layer = LAYERS.indexOf(active)
+  const reached = layer === -1 ? CHAIN.length : layer + 2
 
   const go = (id) => (event) => {
     event.preventDefault()
@@ -20,9 +47,23 @@ const Nav = () => {
   }
 
   return (
-    <nav className="nav" aria-label="Page sections">
+    <nav className={`nav${docked ? ' nav-docked' : ''}`} aria-label="Page sections">
       <div className="wrap nav-inner">
-      <ol>
+      <ol className="nav-chain" aria-label="The autonomy stack">
+        {CHAIN.map((node, i) => (
+          <li key={node.label} style={{ '--i': i }} className={`nav-node ${node.id ? 'nav-node-own' : 'nav-node-edge'}${i < reached ? ' nav-node-lit' : ''}${node.id && node.id === active ? ' nav-node-here' : ''}`}>
+            {node.id ? (
+              <a href={`#${node.id}`} onClick={go(node.id)} aria-current={node.id === active ? 'true' : undefined}>
+                {node.label}
+              </a>
+            ) : (
+              <span>{node.label}</span>
+            )}
+            {i < CHAIN.length - 1 && <span className={`nav-seg${i + 1 < reached ? ' nav-seg-lit' : ''}`} aria-hidden="true" />}
+          </li>
+        ))}
+      </ol>
+      <ol className="nav-links">
         {SECTIONS.map((section) => (
           <li key={section.id}>
             <a

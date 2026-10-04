@@ -27,6 +27,8 @@ const Track = ({ track, index }) => {
             <Entry key={entry.id} entry={entry} />
           ))}
         </div>
+
+        {track.handoff && <p className="track-handoff">{track.handoff}</p>}
       </div>
     </section>
   )

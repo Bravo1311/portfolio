@@ -740,3 +740,50 @@ section[id] { scroll-margin-top: var(--nav-h); }
   .footer-inner { gap: 2.2rem; }
   .footer { padding-top: 3.6rem; }
 }
+
+
+/* --------------------- the chain as the page's spine --------------------- */
+.nav .nav-chain { display: none; list-style: none; margin: 0; padding: 0.85rem 0; align-items: center; gap: 0; overflow: visible; }
+.nav-node { display: flex; align-items: center; }
+.nav .nav-node > a, .nav-node > span:first-child { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0; border: 0; font-family: var(--display); font-size: 0.88rem; color: var(--ink-soft); white-space: nowrap; transition: color 0.2s ease; }
+.nav-node > a::before, .nav-node > span:first-child::before { content: ''; width: 0.55rem; height: 0.55rem; border-radius: 50%; border: 1px solid var(--ink-soft); flex: none; transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
+.nav-node-edge > span:first-child { font-style: italic; }
+.nav-node-lit > a, .nav-node-lit > span:first-child { color: var(--ink); }
+.nav-node-lit > a::before { background: var(--brass); border-color: var(--brass); }
+.nav-node-lit > span:first-child::before { border-color: var(--ink); }
+.nav .nav-node-here > a { font-weight: 600; }
+.nav-node-here > a::before { box-shadow: 0 0 0 4px color-mix(in srgb, var(--brass) 24%, transparent); }
+.nav-seg { display: block; width: 1rem; height: 1px; margin: 0 0.5rem; background: var(--rule); transition: background 0.4s ease; }
+.nav-seg-lit { background: var(--brass); }
+@media (min-width: 68rem) {
+  .nav-inner { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .nav .nav-chain { display: flex; }
+  .nav .nav-links { margin-left: 1.4rem; padding: 0 0 0 1.4rem; border-left: 1px solid var(--rule); align-self: center; }
+  .nav-links li:nth-child(-n + 3) { display: none; }
+}
+
+.track-handoff { display: flex; align-items: baseline; gap: 0.7rem; margin: clamp(2.4rem, 5vw, 3.4rem) 0 0; font-family: var(--display); font-style: italic; font-size: 1.05rem; color: var(--ink-soft); }
+.track-handoff::before { content: '\2193'; font-style: normal; color: var(--brass-text); }
+
+@media print { .track-handoff, .nav-chain, .hero-kicker, .chain-line { display: none !important; } }
+
+
+
+/* -------- one chain: the hero carries it, the bar takes over once you scroll -------- */
+@media screen { .hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; } }
+.hero-kicker { margin: 0 0 0.2rem; font-family: var(--display); font-style: italic; font-size: 1.02rem; color: var(--hero-role); opacity: 0; animation: rise 0.8s ease 0.8s forwards; }
+.chain-line { display: block; margin-top: 0.45rem; max-width: 15rem; font-family: var(--body); font-style: normal; font-size: 0.82rem; line-height: 1.4; color: var(--hero-soft); }
+@media (max-width: 52rem) { .chain-line { display: none; } .hero-kicker { font-size: 0.95rem; } }
+@media (prefers-reduced-motion: reduce) { .hero-kicker { animation: none; opacity: 1; } }
+
+
+/* ----- the bar: its buttons are always there; its chain and links arrive once the hero chain has scrolled away ----- */
+.nav { position: fixed; top: 0; left: 0; right: 0; background: transparent; border-bottom-color: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; transition: background 0.4s ease, border-color 0.4s ease; }
+.nav.nav-docked { background: color-mix(in srgb, var(--paper) 94%, transparent); border-bottom-color: var(--rule); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.nav .nav-chain, .nav .nav-links { opacity: 0; transform: translateY(-8px); visibility: hidden; transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.24, 1), visibility 0s linear 0.5s; }
+.nav.nav-docked .nav-chain, .nav.nav-docked .nav-links { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
+.nav-docked .nav-node { animation: node-in 0.55s cubic-bezier(0.22, 0.8, 0.24, 1) both; animation-delay: calc(var(--i) * 70ms + 120ms); }
+@keyframes node-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+@media (min-width: 68rem) { .nav .nav-links { overflow: visible; } }
+@media (prefers-reduced-motion: reduce) { .nav, .nav .nav-chain, .nav .nav-links { transition: none; } .nav-docked .nav-node { animation: none; } }
+.nav:not(.nav-docked) .nav-cta:not(.nav-cta-main), .nav:not(.nav-docked) .theme-toggle { background: color-mix(in srgb, var(--paper) 78%, transparent); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }

@@ -1,8 +1,10 @@
 import { useEffect, useRef } from 'react'
-import { profile } from '../data/cv.js'
+import { profile, tracks } from '../data/cv.js'
 import ContourField from './ContourField.jsx'
 
 // The two endpoints are the world outside your work; the middle three are yours and link down the page.
+const LINES = Object.fromEntries(tracks.map((t) => [t.id, t.line]))
+
 const CHAIN = [
   { id: null, label: 'Sensing' },
   { id: 'estimation', label: 'Estimation' },
@@ -56,6 +58,7 @@ const Header = () => {
       </div>
 
       <div className="hero-foot">
+        <p className="hero-kicker">The whole stack, end to end</p>
         <ol className="chain" aria-label="The autonomy stack, bottom to top">
           {CHAIN.map((node, i) => (
             <li
@@ -64,6 +67,7 @@ const Header = () => {
               style={{ '--i': i }}
             >
               {node.id ? <a href={`#${node.id}`}>{node.label}</a> : <span>{node.label}</span>}
+              {node.id && <span className="chain-line">{LINES[node.id]}</span>}
             </li>
           ))}
         </ol>

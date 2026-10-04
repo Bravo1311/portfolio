@@ -27,6 +27,7 @@ export const profile = {
 export const tracks = [
   {
     id: 'estimation',
+    handoff: 'A state estimate, handed on to the rest of the stack.',
     name: 'Estimation',
     line: 'Where measurements become a state you can act on.',
     entries: [
@@ -68,6 +69,7 @@ export const tracks = [
   },
   {
     id: 'integration',
+    handoff: 'A running system for the policy to act through.',
     name: 'Integration',
     line: 'Where components become a system that flies.',
     entries: [
@@ -123,6 +125,7 @@ export const tracks = [
   },
   {
     id: 'policy',
+    handoff: 'Actions back to the vehicle, and the loop closes.',
     name: 'Policy',
     line: 'Where the state estimate becomes an action.',
     entries: [
