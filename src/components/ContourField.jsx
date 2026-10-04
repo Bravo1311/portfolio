@@ -127,17 +127,17 @@ const ContourField = ({ variant = 'flown' }) => {
         </g>
       ) : (
         <g opacity="0">
-          {/* One 13 s cycle, repeated for good: take off at the start, fly the route for 9.75 s,
+          {/* One 11.5 s cycle, repeated for good: take off at the start, fly the route for 9.1 s,
               fade out at the end, rest briefly, begin again. */}
-          <animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.04;0.7;0.76;1" dur="13s" begin="3.7s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.04;0.74;0.8;1" dur="11.5s" begin="3.7s" repeatCount="indefinite" />
           <animateMotion
-            dur="13s"
+            dur="11.5s"
             begin="3.7s"
             repeatCount="indefinite"
             rotate="auto"
             calcMode="spline"
             keyPoints="0;1;1"
-            keyTimes="0;0.75;1"
+            keyTimes="0;0.79;1"
             keySplines="0.45 0 0.25 1; 0 0 1 1"
           >
             <mpath href="#flight-path" />

@@ -27,6 +27,7 @@ const t = []
 const truth = []
 const estimate = []
 const dr = []
+const raw = []
 let ex = 0
 let ey = 0
 for (let i = 0; i < n; i++) {
@@ -37,9 +38,17 @@ for (let i = 0; i < n; i++) {
   ey = 0.9 * ey + 0.122 * gauss()
   t.push(+s.toFixed(1))
   truth.push([+x.toFixed(2), +y.toFixed(2)])
-  estimate.push([+(x + ex).toFixed(2), +(y + ey).toFixed(2)])
+  raw.push([ex, ey])
   dr.push([+(x + 0.0045 * s * s).toFixed(2), +(y - 0.003 * s * s).toFixed(2)])
 }
+
+// Scale the error so the sample's position RMSE is exactly the figure quoted on the page.
+const TARGET_RMSE = 0.3
+const rawRmse = Math.sqrt(raw.reduce((sum, [a, b]) => sum + a * a + b * b, 0) / n)
+const k = TARGET_RMSE / rawRmse
+raw.forEach(([a, b], i) => estimate.push([+(truth[i][0] + a * k).toFixed(2), +(truth[i][1] + b * k).toFixed(2)]))
+const rmse = Math.sqrt(estimate.reduce((sum, e, i) => sum + Math.hypot(e[0] - truth[i][0], e[1] - truth[i][1]) ** 2, 0) / n)
+console.log('sample position RMSE', rmse.toFixed(3), 'm')
 
 const out = {
   meta: {

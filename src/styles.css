@@ -200,12 +200,12 @@ section[id] { scroll-margin-top: var(--nav-h); }
 .chain-node::before { content: ''; position: absolute; left: 0; top: -1.6rem; width: 0.85rem; height: 0.85rem; border-radius: 50%; border: 1px solid var(--hero-soft); background: var(--hero-1); }
 .chain-own::before { background: var(--hero-accent); border-color: var(--hero-accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--hero-accent) 18%, transparent); }
 .chain-edge { color: var(--hero-soft); }
-.chain::after { content: ''; position: absolute; top: calc(0.42rem - 2px); left: -6rem; width: 6rem; height: 5px; border-radius: 99px; background: linear-gradient(90deg, transparent, var(--hero-accent)); box-shadow: 0 0 14px 2px color-mix(in srgb, var(--hero-accent) 55%, transparent); opacity: 0; pointer-events: none; animation: comet 13s linear 3.7s infinite; }
-.chain-node::before { animation: node-glow-edge 13s ease-out infinite; animation-delay: calc(3.45s + var(--i) * 1.47s); }
+.chain::after { content: ''; position: absolute; top: calc(0.42rem - 2px); left: -6rem; width: 6rem; height: 5px; border-radius: 99px; background: linear-gradient(90deg, transparent, var(--hero-accent)); box-shadow: 0 0 14px 2px color-mix(in srgb, var(--hero-accent) 55%, transparent); opacity: 0; pointer-events: none; animation: comet 11.5s linear 3.7s infinite; }
+.chain-node::before { animation: node-glow-edge 11.5s ease-out infinite; animation-delay: calc(3.45s + var(--i) * 1.66s); }
 .chain-own::before { animation-name: node-glow-own; }
-@keyframes comet { 0% { left: -6rem; opacity: 0; } 4% { opacity: 1; } 62% { left: 100%; opacity: 1; } 66% { left: 100%; opacity: 0; } 100% { left: 100%; opacity: 0; } }
-@keyframes node-glow-own { 0%, 9%, 100% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--hero-accent) 18%, transparent); transform: none; } 2.3% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--hero-accent) 40%, transparent), 0 0 20px 4px var(--hero-accent); transform: scale(1.3); } }
-@keyframes node-glow-edge { 0%, 9%, 100% { box-shadow: 0 0 0 0 transparent; transform: none; border-color: var(--hero-soft); } 2.3% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--hero-accent) 30%, transparent), 0 0 16px 2px var(--hero-accent); transform: scale(1.25); border-color: var(--hero-accent); } }
+@keyframes comet { 0% { left: -6rem; opacity: 0; } 4% { opacity: 1; } 79% { left: 100%; opacity: 1; } 83% { left: 100%; opacity: 0; } 100% { left: 100%; opacity: 0; } }
+@keyframes node-glow-own { 0%, 10%, 100% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--hero-accent) 18%, transparent); transform: none; } 2.6% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--hero-accent) 40%, transparent), 0 0 20px 4px var(--hero-accent); transform: scale(1.3); } }
+@keyframes node-glow-edge { 0%, 10%, 100% { box-shadow: 0 0 0 0 transparent; transform: none; border-color: var(--hero-soft); } 2.6% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--hero-accent) 30%, transparent), 0 0 16px 2px var(--hero-accent); transform: scale(1.25); border-color: var(--hero-accent); } }
 .chain-own a { color: var(--hero-ink); text-decoration: none; border-bottom: 1px solid rgb(var(--hero-line) / 0.35); padding-bottom: 1px; transition: border-color 0.2s ease, color 0.2s ease; }
 .chain-own a:hover { color: var(--hero-role); border-color: var(--hero-accent); }
 

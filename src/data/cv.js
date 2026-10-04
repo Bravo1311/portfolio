@@ -17,7 +17,7 @@ export const profile = {
   // availability: 'MSc Robotic Systems Engineering (January 2027). Available from February, willing to relocate.',
   links: [
     { label: 'cartikingermany@gmail.com', href: 'mailto:cartikingermany@gmail.com' },
-    { label: '+49 176 87935033', href: 'tel:+4917687935033' },
+    // { label: '+49 176 87935033', href: 'tel:+4917687935033' },
     { label: 'linkedin.com/in/kartikag1311', href: 'https://linkedin.com/in/kartikag1311' },
     { label: 'github.com/Bravo1311', href: 'https://github.com/Bravo1311' },
   ],
@@ -40,11 +40,11 @@ export const tracks = [
         title: 'Decentralized cooperative localization for UAV teams',
         org: "Master's thesis · Institute of Automatic Control (IRT), RWTH Aachen",
         summary:
-          'A framework for drones to improve their own state estimates from their neighbours. Each agent localizes from onboard GNSS, IMU and magnetometer; pairwise UWB ranging couples agents, reconciled with MESA — manifold edge-based separable ADMM.',
+          'Agents with poor GNSS geomtry recover accuracy by ranging to neighbors with better fixes. A framework for drones to improve their own state estimates from their neighbours. Each agent localizes from onboard GNSS, IMU and magnetometer; pairwise UWB ranging couples agents, reconciled with MESA (Manifold Edge-based Separable ADMM).',
         tags: ['GTSAM', 'MESA / C-ADMM', 'UWB', 'GNSS', 'ROS2', 'ArduPilot'],
         highlights: [
-          'Single-agent GTSAM estimator validated at 0.3 m position RMSE in simulation',
-          'Real-time GNSS simulator with live ephemeris and configurable error models',
+          'Single-agent GTSAM estimator validated at under 0.3 m position RMSE over 200 meters in simulation',
+          'Synthetic sensor pipeline: closed-form trajectory generator, STIM300-class IMU error model, real-time GNSS simulator with live ephemeris and configurable error models',
           'UWB simulation node done; the MESA interface is in progress',
         ],
         media: [
@@ -55,13 +55,15 @@ export const tracks = [
         ],
         detailLabel: 'Framework and open questions',
         details: [
-          'Single-agent GNSS/IMU/magnetometer factor graph estimator in GTSAM, validated at 0.3 m position RMSE against simulated ground truth.',
+          'Single-agent GNSS/IMU/magnetometer factor graph estimator in GTSAM, validated against a closed-form trajectory where position, velocity, acceleration, and attitude are exact rather than numerically differentiated.',
+          'Synthetic validation pipeline built to replace Gazebo for estimator work: an analytic trajectory generator feeding a STIM300-class IMU model with turn-on bias, scale factor, misalignment, non-orthogonality, quantisation and saturation, error sources a physical enginer IMU plugin does not model.',
+          'Demonstrated that the estimator recovers injected IMU turn-on bias on all six axes with correct sign when scale factor, misalignment and Earth rotation are disabled. Under the full error model those terms are absorbed into the bias states. A ConstantBias parameterization cannot separate turn-on bias from any error that is constant under the given motion. This acts as a structural limit, not an estimator limit.',
           'Real-time GNSS simulator with live ephemeris data and configurable error models, supporting loosely and tightly coupled architectures for comparative navigation studies.',
-          "MESA's edge variables were designed for co-observed landmarks. Here agents share no landmarks — the coupled variable is the neighbour's pose, so the shared-variable set is defined by the ranging topology rather than by overlapping observation.",
-          'Consensus ADMM chosen for asynchrony: dropouts and message loss appear as iterations where affected agents simply do not communicate, which matches real radio behaviour better than a synchronous scheme.',
-          'Deliberately modality-agnostic — UWB is the first inter-agent measurement; depth or LiDAR can be added as further edge modalities.',
-          'Built an ArduPilot SITL/ROS2 simulation environment with teleoperation, and a ROS2–React interface for state visualization and diagnostics.',
-          'UWB simulation node implemented; the MESA interface is the current work.',
+          "MESA's shared variables are typically landmarks or poses linked by inter-robot loop closures. Here agents share no landmarks: the coupling is created by UWB ranging, so each agent holds a copy of its neighbor's position at shared timestamps, and the shared set is determined by range-factor ownership and window overlap.",
+          'Consensus ADMM was chosen for its convergence rate and its edge-based communication model, in which a lost exchange is an iteration without communication. This tolerance is claimed but untested in the original work; to be evaluated here under injected message loss.',
+          'The consensus layer is agnostic to the inter-agent measurement type. UWB ranging is used first; further modalities (e.g. bearing, or relative pose measurements from LiDAR/depth) are left as extensions.',
+          'Built an ArduPilot SITL/ROS2 simulation environment with teleoperation, and a ROS2-React interface for state visualization and diagnostics.',
+          'UWB simulation node implemented. MESA implementation is ongoing: inter-agent communication and the interface between the real-time MESA agent and each drone\'s factor graph',
           'Open: batch versus incremental optimization, and the bandwidth cost of edge-variable exchange at scale.',
         ],
       },
@@ -81,12 +83,11 @@ export const tracks = [
         title: 'UAV autonomy stack',
         org: 'ROS2, PX4 SITL, Gazebo, Nav2',
         summary:
-          'A full-stack autonomous UAV system in ROS2/PX4, supporting manual gamepad control and perception-driven autonomous flight in offboard mode.',
+          'A full-stack autonomous UAV system in ROS2/PX4, supporting teleoperation and perception-driven autonomous flight in offboard mode.',
         tags: ['ROS2', 'PX4', 'Nav2', 'LiDAR', 'C++', 'Docker', 'GitHub Actions'],
         highlights: [
           'ArUco-based localization with PD control for waypoint navigation and precision landing',
           'LiDAR collision avoidance, and Nav2 adapted to UAV dynamics',
-          'Every change built in a clean Docker container through GitHub Actions',
         ],
         links: [
           { label: 'Code', href: 'https://github.com/Bravo1311/ROS2_PX4_Drone_Autonomy_POC' },
@@ -118,7 +119,6 @@ export const tracks = [
           'LiDAR collision avoidance filtering commanded velocity in obstacle-facing directions.',
           'Nav2 adapted to UAV dynamics, enabling autonomous path planning and goal navigation on a drone platform.',
           'C++ marker-map annotator producing semantic annotations that feed VLM-based reasoning into the estimation and control layers.',
-          'Every change is built automatically in a clean Docker container (GitHub Actions), so the project builds the same way on any machine. Changes go through pull requests.',
         ],
       },
     ],
@@ -179,7 +179,7 @@ export const tracks = [
 // Where the spine is going. Stated as intent, not as a result.
 export const direction = {
   title: 'Closing the loop between the tracks',
-  text: 'The three tracks are one system. The intended convergence is vision-based relative pose from the tracking policy entering the factor graph as an aiding factor, tested under simulated GNSS spoofing — learned perception feeding classical estimation rather than replacing it. Designed, not yet built.',
+  text: 'Estimation is the foundation: it feeds everything downstream. Integration sits above it with its own control layers — Nav2, behavior trees — and perception pipelines with their own models. Policy sits above that, turning state into action. Built out fully, this becomes a complete autonomy stack, with each layer feeding the one above it.',
 }
 
 export const experience = [
