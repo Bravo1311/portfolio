@@ -33,11 +33,11 @@ const A = toward(policy, estimation, 14)
 const B = toward(estimation, policy, 14)
 
 const LoopArt = () => {
-  const t = useClock()
+  const [t, ref] = useClock()
   const lead = -90 + ((t * 27.7) % 360)
 
   return (
-    <svg className="loop-svg" viewBox="60 36 400 262" role="img" aria-label="The autonomy chain closed into a loop, with a planned link back into estimation">
+    <svg ref={ref} className="loop-svg" viewBox="60 36 400 262" role="img" aria-label="The autonomy chain closed into a loop, with a planned link back into estimation">
       <defs>
         <marker id="loop-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto">
           <path d="M0 0L8 4L0 8z" className="loop-head" />

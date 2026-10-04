@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { profile } from '../data/cv.js'
 import ContourField from './ContourField.jsx'
 
@@ -10,13 +11,44 @@ const CHAIN = [
   { id: null, label: 'Action' },
 ]
 
-const Header = () => (
-  <header className="hero">
+// Pauses the endless hero animations (drone, glow, flares) together while the hero is off screen,
+// so they resume in step. Finished one-shot animations are left alone.
+const usePauseOffscreen = (ref) => {
+  useEffect(() => {
+    const node = ref.current
+    if (!node || !('IntersectionObserver' in window) || !node.getAnimations) return
+    const observer = new IntersectionObserver(([entry]) => {
+      const svg = node.querySelector('.contour')
+      const loops = node.getAnimations({ subtree: true }).filter((a) => a.effect && a.effect.getComputedTiming().iterations === Infinity)
+      if (entry.isIntersecting) {
+        if (svg) svg.unpauseAnimations()
+        loops.forEach((a) => a.play())
+      } else {
+        if (svg) svg.pauseAnimations()
+        loops.forEach((a) => a.pause())
+      }
+    })
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [ref])
+}
+
+const Header = () => {
+  const ref = useRef(null)
+  usePauseOffscreen(ref)
+  return (
+  <header className="hero" ref={ref}>
     <div className="wrap hero-inner">
       <div className="hero-text">
         <p className="role">{profile.role}</p>
         <h1>{profile.name}</h1>
         <p className="claim">{profile.claim}</p>
+        <ul className="print-contact">
+          <li>{profile.location}</li>
+          {profile.links.map((link) => (
+            <li key={link.href}>{link.label}</li>
+          ))}
+        </ul>
       </div>
 
       <div className="hero-art">
@@ -38,6 +70,7 @@ const Header = () => (
       </div>
     </div>
   </header>
-)
+  )
+}
 
 export default Header

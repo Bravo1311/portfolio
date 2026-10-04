@@ -13,6 +13,7 @@ export const profile = {
   claim:
     'I work the full path from raw sensor measurements to learned action policies: state estimation at the bottom, systems integration in the middle, policy training at the top. Three years of production software engineering underneath it.',
   location: 'Aachen, Germany',
+  cv: 'Kartik_Agrawal_CV.pdf',
   // availability: 'MSc Robotic Systems Engineering (January 2027). Available from February, willing to relocate.',
   links: [
     { label: 'cartikingermany@gmail.com', href: 'mailto:cartikingermany@gmail.com' },
@@ -40,6 +41,11 @@ export const tracks = [
         summary:
           'A framework for drones to improve their own state estimates from their neighbours. Each agent localizes from onboard GNSS, IMU and magnetometer; pairwise UWB ranging couples agents, reconciled with MESA — manifold edge-based separable ADMM.',
         tags: ['GTSAM', 'MESA / C-ADMM', 'UWB', 'GNSS', 'ROS2', 'ArduPilot'],
+        highlights: [
+          'Single-agent GTSAM estimator validated at 0.3 m position RMSE in simulation',
+          'Real-time GNSS simulator with live ephemeris and configurable error models',
+          'UWB simulation node done; the MESA interface is in progress',
+        ],
         media: [
           {
             kind: 'plot',
@@ -75,6 +81,11 @@ export const tracks = [
         summary:
           'A full-stack autonomous UAV system in ROS2/PX4, supporting manual gamepad control and perception-driven autonomous flight in offboard mode.',
         tags: ['ROS2', 'PX4', 'Nav2', 'LiDAR', 'C++', 'Docker', 'GitHub Actions'],
+        highlights: [
+          'ArUco-based localization with PD control for waypoint navigation and precision landing',
+          'LiDAR collision avoidance, and Nav2 adapted to UAV dynamics',
+          'Every change built in a clean Docker container through GitHub Actions',
+        ],
         links: [
           { label: 'Code', href: 'https://github.com/Bravo1311/ROS2_PX4_Drone_Autonomy_POC' },
           { label: 'Demo', href: 'https://www.youtube.com/@Drononomy' },
@@ -125,6 +136,11 @@ export const tracks = [
         summary:
           'A learned policy that flies the aircraft directly. A Diffusion Transformer-style conditional flow-matching model, trained by imitation from a classical PD controller and validated in both MuJoCo and Gazebo/PX4.',
         tags: ['PyTorch', 'Flow matching', 'Transformers', 'MuJoCo', 'Imitation learning'],
+        highlights: [
+          'Phase 1, pose-based precision landing, is complete and public',
+          'Trained by imitation from a classical PD controller, so failures trace to the policy',
+          'Phase 2 in progress: vision-conditioned target following with a Siamese tracking head',
+        ],
         links: [
           { label: 'Code', href: 'https://github.com/Bravo1311/Flow_Matching_UAVs' },
           { label: 'Demo', href: 'https://www.youtube.com/watch?v=w6VsROLk_S0' },

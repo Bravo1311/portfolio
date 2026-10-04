@@ -64,11 +64,12 @@ const Entry = ({ entry }) => {
   const label = entry.detailLabel || 'Details'
   const columns = count >= 4 ? 'detail detail-cols' : 'detail'
   const inline = count === 1
-  const hasHidden = hasTags || hasDetails || hasMedia || hasLinks
+  const hasHighlights = entry.highlights && entry.highlights.length > 0
+  const hasHidden = hasDetails || hasMedia
   const hit = hits.includes(entry.id)
 
   const classes = ['entry', open ? 'entry-open' : '', hit ? 'entry-hit' : ''].filter(Boolean).join(' ')
-  const controls = [revealId, (hasMedia || Art) && mediaId, hasDetails && !inline && detailId].filter(Boolean).join(' ')
+  const controls = [inline && revealId, (hasMedia || Art) && mediaId, hasDetails && !inline && detailId].filter(Boolean).join(' ')
 
   return (
     <article id={entry.id} ref={ref} className={classes}>
@@ -91,6 +92,32 @@ const Entry = ({ entry }) => {
         {entry.org && <p className="entry-org">{entry.org}</p>}
         {entry.summary && <p className="entry-summary">{entry.summary}</p>}
 
+        {hasHighlights && (
+          <ul className="highlights">
+            {entry.highlights.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+        )}
+
+        {hasTags && (
+          <ul className="tags">
+            {entry.tags.map((tag) => (
+              <li key={tag}>{tag}</li>
+            ))}
+          </ul>
+        )}
+
+        {hasLinks && (
+          <div className="entry-actions">
+            {entry.links.map((l) => (
+              <a key={l.label} className="entry-link" href={l.href}>
+                {l.label}
+              </a>
+            ))}
+          </div>
+        )}
+
         {hasHidden && (
           <button type="button" className="toggle" onClick={toggle} aria-expanded={open} aria-controls={controls}>
             {open ? 'Hide details' : 'Show details'}
@@ -99,31 +126,13 @@ const Entry = ({ entry }) => {
           </button>
         )}
 
-        <Collapse open={open} id={revealId} className="entry-reveal">
-          {hasTags && (
-            <ul className="tags">
-              {entry.tags.map((tag) => (
-                <li key={tag}>{tag}</li>
-              ))}
-            </ul>
-          )}
-
-          {inline && (
+        {inline && (
+          <Collapse open={open} id={revealId} className="entry-reveal">
             <p className="entry-note">
               <strong>{label}.</strong> {entry.details[0]}
             </p>
-          )}
-
-          {hasLinks && (
-            <div className="entry-actions">
-              {entry.links.map((l) => (
-                <a key={l.label} className="entry-link" href={l.href}>
-                  {l.label}
-                </a>
-              ))}
-            </div>
-          )}
-        </Collapse>
+          </Collapse>
+        )}
       </div>
 
       {(hasMedia || Art) && (

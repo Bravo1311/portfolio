@@ -1,5 +1,7 @@
 import { useScrollSpy } from '../hooks.js'
 import ThemeToggle from './ThemeToggle.jsx'
+import { profile } from '../data/cv.js'
+import { track } from '../lib/analytics.js'
 
 const SECTIONS = [
   { id: 'estimation', label: 'Estimation' },
@@ -34,7 +36,18 @@ const Nav = () => {
           </li>
         ))}
       </ol>
-      <ThemeToggle />
+      <div className="nav-actions">
+        <a className="nav-cta" href={profile.cv} download onClick={() => track('cv-download')}>
+          CV
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 4v11M7 11l5 5 5-5M5 20h14" />
+          </svg>
+        </a>
+        <a className="nav-cta nav-cta-main" href="#contact" onClick={go('contact')}>
+          Contact
+        </a>
+        <ThemeToggle />
+      </div>
       </div>
     </nav>
   )

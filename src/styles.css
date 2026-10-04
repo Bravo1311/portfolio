@@ -259,7 +259,7 @@ section[id] { scroll-margin-top: var(--nav-h); }
 @media (min-width: 56rem) {
   .entries-1 .entry { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 0 3.5rem; grid-template-areas: "main media" "detail detail"; }
   .entries-1 .entry-main { grid-area: main; }
-  .entries-1 .entry-media { grid-area: media; margin-top: 0; }
+  .entries-1 .entry-media { grid-area: media; margin-top: 0; align-self: center; }
   .entries-1 .entry > .detail-wrap { grid-area: detail; }
   .entries-1 .detail-pad { padding-top: 2rem; }
   .entries-1 .entry:not(:has(.entry-media)) { grid-template-columns: minmax(0, 1fr); grid-template-areas: "main" "detail"; }
@@ -363,7 +363,7 @@ section[id] { scroll-margin-top: var(--nav-h); }
   :root { --nav-h: 6.4rem; }
   .nav-inner { grid-template-columns: minmax(0, 1fr) auto; }
   .nav ol { grid-column: 1 / -1; padding-bottom: 0.3rem; }
-  .theme-toggle { grid-column: 2; margin-bottom: 0.65rem; }
+  .nav-actions { grid-column: 2; margin-bottom: 0.65rem; }
 }
 @media (max-width: 56rem) {
   .hero-inner { grid-template-columns: minmax(0, 1fr); }
@@ -692,3 +692,27 @@ section[id] { scroll-margin-top: var(--nav-h); }
 .loop-label { fill: var(--dir-text); font-family: var(--body); font-size: 11px; }
 .loop-label-hot { fill: var(--dir-accent); paint-order: stroke; stroke: var(--dir-bg); stroke-width: 5px; stroke-linejoin: round; }
 @media print { .direction-loop { display: none; } }
+
+
+/* ------------------- what a reader should see without opening anything ------------------- */
+.highlights { list-style: none; margin: 1.1rem 0 0; padding: 0; max-width: 38rem; display: grid; gap: 0.4rem; }
+.highlights li { position: relative; padding-left: 1.2rem; font-size: 0.95rem; line-height: 1.5; color: var(--text-2); }
+.highlights li::before { content: ''; position: absolute; left: 0.1rem; top: 0.55em; width: 0.42rem; height: 0.42rem; border-radius: 50%; background: var(--brass); }
+.entry-link { display: inline-flex; align-items: center; border: 1px solid var(--rule); border-radius: 999px; padding: 0.22rem 0.85rem; font-size: 0.86rem; text-decoration: none; transition: border-color 0.15s ease, color 0.15s ease; }
+.entry-link:hover, .entry-link:focus-visible { border-color: var(--brass); color: var(--brass-text); }
+@media print { .highlights { display: none; } .entry-link { display: inline; border: 0; padding: 0; } }
+
+
+/* ------------------------- reach me: nav buttons ------------------------- */
+.nav-actions { display: flex; align-items: center; gap: 0.5rem; }
+.nav .nav-cta { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.28rem 0.85rem; border: 1px solid var(--rule); border-radius: 999px; font-size: 0.78rem; color: var(--ink); transition: border-color 0.15s ease, background 0.15s ease; }
+.nav .nav-cta:hover { color: var(--ink); border-color: var(--brass); }
+.nav .nav-cta-main { background: var(--btn-bg); border-color: var(--btn-bg); color: var(--btn-fg); }
+.nav .nav-cta-main:hover { color: var(--btn-fg); background: var(--btn-hover); border-color: var(--btn-hover); }
+.nav-cta svg { width: 0.85rem; height: 0.85rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.footer[id] { scroll-margin-top: var(--nav-h); }
+.print-contact { display: none; }
+@media print {
+  .nav-actions, .footer { display: none !important; }
+  .print-contact { display: flex; flex-wrap: wrap; gap: 0.15rem 1.1rem; list-style: none; margin: 0.5rem 0 0; padding: 0; font-size: 0.82rem; color: #222; }
+}

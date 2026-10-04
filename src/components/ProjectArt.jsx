@@ -1,13 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 // Small animated sketches shown beside a collapsed entry; the real media replaces them on expand.
+// Ticks only while the returned ref's element is on screen.
 export const useClock = (fps = 30) => {
   const [t, setT] = useState(0)
+  const [visible, setVisible] = useState(true)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const node = ref.current
+    if (!node || !('IntersectionObserver' in window)) return
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { rootMargin: '80px' })
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
+
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setT(2.4)
       return
     }
+    if (!visible) return
     let raf
     let last = 0
     const tick = (now) => {
@@ -19,17 +32,18 @@ export const useClock = (fps = 30) => {
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [fps])
-  return t
+  }, [fps, visible])
+
+  return [t, ref]
 }
 
 const lerp = (a, b, s) => a + (b - a) * s
 const clamp = (v) => Math.min(1, Math.max(0, v))
 const ease = (v) => v * v * (3 - 2 * v)
 
-const Frame = ({ label, children }) => (
+const Frame = ({ label, svgRef, children }) => (
   <div className="art-frame">
-    <svg className="art-svg" viewBox="0 0 320 180" role="img" aria-label={label}>
+    <svg ref={svgRef} className="art-svg" viewBox="0 0 320 180" role="img" aria-label={label}>
       {children}
     </svg>
   </div>
@@ -50,11 +64,11 @@ const LINKS = [
 ]
 
 export const UavTeamArt = () => {
-  const t = useClock()
+  const [t, ref] = useClock()
   const pos = BASE.map(([x, y], i) => [x + 14 * Math.cos(t * 0.7 + i * 1.7), y + 10 * Math.sin(t * 0.9 + i * 2.3)])
 
   return (
-    <Frame label="Four drones exchanging pairwise UWB ranges">
+    <Frame svgRef={ref} label="Four drones exchanging pairwise UWB ranges">
       {BASE.map(([x, y], i) => (
         <circle key={`gt${i}`} cx={x} cy={y} r="22" className="art-ghost" />
       ))}
@@ -153,7 +167,7 @@ const rayHit = (x, y, a) => {
 }
 
 export const NavigationArt = () => {
-  const t = useClock()
+  const [t, ref] = useClock()
   const phase = (t % 10) / 10
   const travel = ease(clamp(phase / 0.74))
   const idx = Math.round(travel * (ROUTE.length - 1))
@@ -167,7 +181,7 @@ export const NavigationArt = () => {
   const sweep = t * 1.2
 
   return (
-    <Frame label="A drone flying around obstacles with LiDAR and landing on an ArUco marker">
+    <Frame svgRef={ref} label="A drone flying around obstacles with LiDAR and landing on an ArUco marker">
       <g opacity={fade}>
         {OBSTACLES.map(([cx, cy, r], i) => (
           <circle key={i} cx={cx} cy={cy} r={r} className="art-obstacle" />
@@ -230,7 +244,7 @@ const chunk = (() => {
 const pts = (list) => list.map((q) => q.join(',')).join(' ')
 
 export const FlowPolicyArt = () => {
-  const t = useClock()
+  const [t, ref] = useClock()
   const sec = t % 10
   const raw = clamp((sec - 1.2) / 5.6) * STEPS
   const k = Math.min(STEPS - 1, Math.floor(raw))
@@ -247,7 +261,7 @@ export const FlowPolicyArt = () => {
   const fade = sec > 9.2 ? 1 - clamp((sec - 9.2) / 0.8) : 1
 
   return (
-    <Frame label="A noisy action chunk refined step by step into a landing trajectory">
+    <Frame svgRef={ref} label="A noisy action chunk refined step by step into a landing trajectory">
       <g opacity={fade}>
         <polyline points={pts(HISTORY.concat([START]))} className="art-trail" />
         {HISTORY.map(([hx, hy], i) => (
