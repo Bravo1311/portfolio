@@ -287,4 +287,102 @@ export const FlowPolicyArt = () => {
   )
 }
 
-export const ARTS = { 'uav-team': UavTeamArt, navigation: NavigationArt, 'flow-policy': FlowPolicyArt }
+// A robot arm that scans a table, boxes the parts it detects, then picks one and drops it in the bin.
+const SHOULDER = [56, 142]
+const ARM_L1 = 104
+const ARM_L2 = 96
+const swing = (target) => {
+  const dx = target[0] - SHOULDER[0]
+  const dy = target[1] - SHOULDER[1]
+  const d = Math.min(Math.hypot(dx, dy), ARM_L1 + ARM_L2 - 0.5)
+  const a = Math.atan2(dy, dx)
+  const b = Math.acos(Math.max(-1, Math.min(1, (ARM_L1 * ARM_L1 + d * d - ARM_L2 * ARM_L2) / (2 * ARM_L1 * d))))
+  const th = a - b
+  return {
+    elbow: [SHOULDER[0] + ARM_L1 * Math.cos(th), SHOULDER[1] + ARM_L1 * Math.sin(th)],
+    end: [SHOULDER[0] + d * Math.cos(a), SHOULDER[1] + d * Math.sin(a)],
+  }
+}
+
+// time (s), x, y, gripper opening (1 = open)
+const MOVES = [
+  [0, 150, 70, 1],
+  [1.6, 150, 70, 1],
+  [2.5, 136, 98, 1],
+  [3.3, 136, 126, 1],
+  [3.8, 136, 126, 0.1],
+  [4.6, 136, 96, 0.1],
+  [6.1, 234, 96, 0.1],
+  [6.9, 234, 118, 0.1],
+  [7.4, 234, 118, 1],
+  [8.3, 234, 96, 1],
+  [9.4, 150, 70, 1],
+  [10, 150, 70, 1],
+]
+const PICK_AT = 3.8
+const DROP_AT = 7.4
+const PARTS = [
+  { x: 100, y: 142, w: 22, h: 12, round: 2 },
+  { x: 172, y: 138, w: 14, h: 20, round: 6 },
+]
+const TARGET = { x: 136, y: 140, w: 16, h: 16, round: 2 }
+
+const pose = (sec) => {
+  let i = 0
+  while (i < MOVES.length - 2 && sec > MOVES[i + 1][0]) i++
+  const [t0, x0, y0, g0] = MOVES[i]
+  const [t1, x1, y1, g1] = MOVES[i + 1]
+  const u = ease(clamp((sec - t0) / (t1 - t0)))
+  return [lerp(x0, x1, u), lerp(y0, y1, u), lerp(g0, g1, u)]
+}
+
+export const ArmArt = () => {
+  const [t, ref] = useClock()
+  const sec = t % 10
+  const [px, py, grip] = pose(sec)
+  const { elbow, end } = swing([px, py])
+  const g = lerp(8.4, 12, grip)
+
+  const scan = clamp(sec / 1.5)
+  const scanX = lerp(10, 310, scan)
+  const reveal = (cx) => (sec < 1.5 ? clamp((scanX - cx) / 25) : 1)
+  const fade = sec > 9.3 ? 1 - clamp((sec - 9.3) / 0.7) : 1
+  const sceneIn = ease(clamp(sec / 0.4))
+
+  let obj = [TARGET.x, TARGET.y]
+  if (sec >= DROP_AT) obj = [234, lerp(end[1] + 14, 140, ease(clamp((sec - DROP_AT) / 0.4)))]
+  else if (sec >= PICK_AT) obj = [end[0], end[1] + 14]
+  const box = (c, w, h) => [c[0] - w / 2 - 4, c[1] - h / 2 - 4, w + 8, h + 8]
+
+  return (
+    <Frame svgRef={ref} label="A robot arm detecting parts on a table and placing one in a bin">
+      <line x1="14" y1="148" x2="306" y2="148" className="art-table" />
+      <path d="M212,126 V148 H256 V126" className="art-bin" />
+      {sec < 1.5 && <line x1={scanX} y1="30" x2={scanX} y2="148" className="art-scan" />}
+
+      <g opacity={fade}>
+        {PARTS.map((p) => (
+          <g key={p.x} opacity={reveal(p.x)}>
+            <rect x={p.x - p.w / 2} y={p.y - p.h / 2} width={p.w} height={p.h} rx={p.round} className="art-obj" />
+            <rect x={box([p.x, p.y], p.w, p.h)[0]} y={box([p.x, p.y], p.w, p.h)[1]} width={box([p.x, p.y], p.w, p.h)[2]} height={box([p.x, p.y], p.w, p.h)[3]} className="art-box" />
+          </g>
+        ))}
+        <g opacity={reveal(TARGET.x) * sceneIn}>
+          <rect x={obj[0] - TARGET.w / 2} y={obj[1] - TARGET.h / 2} width={TARGET.w} height={TARGET.h} rx={TARGET.round} className="art-obj art-obj-target" />
+          <rect x={box(obj, TARGET.w, TARGET.h)[0]} y={box(obj, TARGET.w, TARGET.h)[1]} width={box(obj, TARGET.w, TARGET.h)[2]} height={box(obj, TARGET.w, TARGET.h)[3]} className="art-box art-box-sure" />
+        </g>
+      </g>
+
+      <rect x="42" y="140" width="28" height="8" rx="2" className="art-joint" />
+      <line x1={SHOULDER[0]} y1={SHOULDER[1]} x2={elbow[0]} y2={elbow[1]} className="art-link2" />
+      <line x1={elbow[0]} y1={elbow[1]} x2={end[0]} y2={end[1]} className="art-link2" />
+      <line x1={end[0] - g} y1={end[1]} x2={end[0] + g} y2={end[1]} className="art-finger" />
+      <line x1={end[0] - g} y1={end[1]} x2={end[0] - g} y2={end[1] + 9} className="art-finger" />
+      <line x1={end[0] + g} y1={end[1]} x2={end[0] + g} y2={end[1] + 9} className="art-finger" />
+      <circle cx={SHOULDER[0]} cy={SHOULDER[1]} r="5" className="art-joint" />
+      <circle cx={elbow[0]} cy={elbow[1]} r="4.5" className="art-joint" />
+    </Frame>
+  )
+}
+
+export const ARTS = { 'uav-team': UavTeamArt, navigation: NavigationArt, 'flow-policy': FlowPolicyArt, perception: ArmArt }

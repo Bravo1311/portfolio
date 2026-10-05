@@ -27,7 +27,7 @@ for (const e of entries) {
   if (e.id && sectionIds.has(e.id)) err(`${name}: the id "${e.id}" is already used by a page section`)
   if (e.id && seen.has(e.id)) err(`${name}: duplicate id (also in ${seen.get(e.id)})`)
   seen.set(e.id, e.where)
-  if (e.where.startsWith('track') && !['working', 'progress', 'planned'].includes(e.status)) err(`${name}: status must be 'working', 'progress' or 'planned' (got ${JSON.stringify(e.status)})`)
+  if (e.where.startsWith('track') && !['done', 'progress'].includes(e.status)) err(`${name}: status must be 'done' or 'progress' (got ${JSON.stringify(e.status)})`)
   for (const l of e.links || []) if (!/^(https?:|mailto:|tel:)/.test(l.href || '')) err(`${name}: link "${l.label}" has a bad address: ${l.href}`)
   for (const m of e.media || []) {
     if (!['plot', 'video', 'image'].includes(m.kind)) err(`${name}: media kind must be plot, video or image (got ${m.kind})`)

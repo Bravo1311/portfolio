@@ -1,12 +1,14 @@
-// Renders the built page through its print stylesheet into public/Kartik_Agrawal_CV.pdf.
-// Run `npm run cv:pdf` after changing content, then commit the PDF. Needs Chrome or Chromium installed.
+// Renders the built page through its print stylesheet into exports/site-print.pdf.
+// It never touches public/Kartik_Agrawal_CV.pdf, which is the hand-made CV the site links to.
+// Needs Chrome or Chromium installed.
 import { spawnSync } from 'node:child_process'
-import { existsSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { existsSync, mkdirSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
 const page = resolve('dist/index.html')
-const out = resolve('public/Kartik_Agrawal_CV.pdf')
+const out = resolve('exports/site-print.pdf')
+mkdirSync(dirname(out), { recursive: true })
 if (!existsSync(page)) {
   console.error('dist/index.html is missing. Run `npm run build` first.')
   process.exit(1)

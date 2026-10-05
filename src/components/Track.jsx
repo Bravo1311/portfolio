@@ -22,7 +22,7 @@ const Track = ({ track, index }) => {
           <p className="track-line">{track.line}</p>
         </div>
 
-        <div className={`entries entries-${count}`}>
+        <div className={`entries entries-1${count > 1 ? ' entries-multi' : ''}`}>
           {track.entries.map((entry) => (
             <Entry key={entry.id} entry={entry} />
           ))}

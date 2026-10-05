@@ -1,7 +1,6 @@
 const LABELS = {
-  working: 'Working',
+  done: 'Completed',
   progress: 'In progress',
-  planned: 'Planned',
 }
 
 const Status = ({ status }) =>

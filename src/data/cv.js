@@ -1,11 +1,10 @@
 // All content lives here. Components read from it and need no changes.
 //
-// status: 'working'  — runs, measured, linked
-//         'progress' — building now, partial results
-//         'planned'  — designed, not built
+// status: 'done'     — finished, runs, measured
+//         'progress' — still being built, or has results so far
 //
 // Keep the status honest. The page's credibility rests on a reader
-// trusting that 'working' means working.
+// trusting that 'done' means done.
 
 export const profile = {
   name: 'Kartik Agrawal',
@@ -40,7 +39,7 @@ export const tracks = [
         title: 'Decentralized cooperative localization for UAV teams',
         org: "Master's thesis · Institute of Automatic Control (IRT), RWTH Aachen",
         summary:
-          'Agents with poor GNSS geomtry recover accuracy by ranging to neighbors with better fixes. A framework for drones to improve their own state estimates from their neighbours. Each agent localizes from onboard GNSS, IMU and magnetometer; pairwise UWB ranging couples agents, reconciled with MESA (Manifold Edge-based Separable ADMM).',
+          'Agents with poor GNSS geometry recover accuracy by ranging to neighbors with better fixes. A framework for drones to improve their own state estimates from their neighbours. Each agent localizes from onboard GNSS, IMU and magnetometer; pairwise UWB ranging couples agents, reconciled with MESA (Manifold Edge-based Separable ADMM).',
         tags: ['GTSAM', 'MESA / C-ADMM', 'UWB', 'GNSS', 'ROS2', 'ArduPilot'],
         highlights: [
           'Single-agent GTSAM estimator validated at under 0.3 m position RMSE over 200 meters in simulation',
@@ -79,7 +78,7 @@ export const tracks = [
         id: 'autonomy-stack',
         art: 'navigation',
         period: 'Feb 2026 — present',
-        status: 'working',
+        status: 'progress',
         title: 'UAV autonomy stack',
         org: 'ROS2, PX4 SITL, Gazebo, Nav2',
         summary:
@@ -121,6 +120,27 @@ export const tracks = [
           'C++ marker-map annotator producing semantic annotations that feed VLM-based reasoning into the estimation and control layers.',
         ],
       },
+      {
+        id: 'perception',
+        art: 'perception',
+        period: 'Feb 2026',
+        status: 'done',
+        title: 'Deep learning perception',
+        org: 'PyTorch, MoveIt',
+        summary:
+          'Detection, classification and manipulation for industrial inspection: YOLOv8 and ResNet18 for perception, MoveIt for pick-and-place.',
+        tags: ['PyTorch', 'YOLOv8', 'ResNet18', 'MoveIt'],
+        highlights: [
+          'YOLOv8 detectors and ResNet18 classifiers trained for industrial inspection',
+          'MoveIt pick-and-place in simulation on a Franka Panda and an Elephant Robotics MyCobot 280',
+          'Built at the Europe Embodied and Intrinsic AI hackathons',
+        ],
+        detailLabel: 'What it does',
+        details: [
+          'Trained YOLOv8 detectors and ResNet18 classifiers for industrial inspection tasks at the Europe Embodied and Intrinsic AI hackathons.',
+          'Implemented MoveIt pick-and-place in simulation using Franka Panda and Elephant Robotics MyCobot 280.',
+        ],
+      },
     ],
   },
   {
@@ -133,7 +153,7 @@ export const tracks = [
         id: 'flow-matching',
         art: 'flow-policy',
         period: 'Aug 2026 — present',
-        status: 'working',
+        status: 'progress',
         title: 'Flow-matching UAV autonomy',
         org: 'PyTorch, MuJoCo, Gazebo/PX4',
         summary:
@@ -269,16 +289,16 @@ export const skills = [
   },
   {
     label: 'Robotics & simulation',
-    items: ['ROS2', 'PX4', 'ArduPilot', 'Gazebo', 'MuJoCo', 'Nav2', 'MoveIt', 'Isaac Sim'],
+    items: ['Linux (Ubuntu 22.04 / 24.04)', 'ROS2', 'PX4', 'ArduPilot', 'Gazebo', 'MuJoCo', 'Nav2', 'MoveIt'],
   },
   {
     label: 'Machine learning',
-    items: ['PyTorch', 'Flow matching', 'Transformers', 'Imitation learning', 'VLMs'],
+    items: ['PyTorch', 'Flow matching', 'Transformers', 'Imitation learning', 'VLMs', 'YOLOv8'],
   },
   { label: ' Programming Languages', items: ['Python', 'C++', 'Java', 'JavaScript (MERN)', 'SQL'] },
   {
     label: 'Infrastructure',
-    items: ['Git', 'Docker', 'GitHub Actions', 'Linux', 'Redpanda', 'PostgreSQL', 'Grafana'],
+    items: ['Git', 'Docker', 'GitHub Actions', 'Redpanda', 'PostgreSQL', 'Grafana'],
   },
   { label: 'Languages', items: ['English (fluent)', 'German (A2)', 'Hindi (native)'] },
 ]
@@ -294,18 +314,21 @@ export const evidence = {
   'Multi-sensor fusion': ['thesis-fgo'],
   'Consensus ADMM': ['thesis-fgo'],
 
+  'Linux (Ubuntu 22.04 / 24.04)': ['thesis-fgo', 'autonomy-stack', 'flow-matching', 'perception'],
   ROS2: ['thesis-fgo', 'autonomy-stack'],
   PX4: ['autonomy-stack', 'flow-matching'],
   ArduPilot: ['thesis-fgo'],
   Gazebo: ['autonomy-stack', 'flow-matching'],
   MuJoCo: ['flow-matching'],
   Nav2: ['autonomy-stack'],
+  MoveIt: ['perception'],
 
-  PyTorch: ['flow-matching'],
+  PyTorch: ['flow-matching', 'perception'],
   'Flow matching': ['flow-matching'],
   Transformers: ['flow-matching'],
   'Imitation learning': ['flow-matching'],
   VLMs: ['autonomy-stack'],
+  YOLOv8: ['perception'],
 
   Python: ['flow-matching'],
   'C++': ['autonomy-stack'],
